@@ -14,10 +14,12 @@ df <- filter(df_raw, Date >= "2007-02-01" & Date <= "2007-02-02")
 #remove entire data, so it dont allocate memory
 rm(df_raw)
 
-## Plot1 - histogram
-hist(df$Global_active_power, main = "Global Active Power", xlab ="Global Active Power (kilowatts)",
-     ylab = "Frequency", col="Red")
+## merge date and time into single column and change it type to POSIX
+df<-mutate(df, date_time = as.POSIXct(paste(df$Date, df$Time)))
+
+## plot 2
+plot(df$Global_active_power~df$date_time, type="l", main = "", xlab="", ylab="Global Active Power (kilowatts)")
 
 ##save to file
-dev.copy(png, file = "plot1.png", width = 480, height = 480)
+dev.copy(png, file = "plot2.png", width = 480, height = 480)
 dev.off()
